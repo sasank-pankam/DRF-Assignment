@@ -1,5 +1,5 @@
 from django.urls import path
-from ale_assignment.loan.views import ProtectedView
+from loan.views import ProtectedView
 
 
 # change.
