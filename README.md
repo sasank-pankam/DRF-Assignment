@@ -30,7 +30,7 @@ docker-compose up --build
 
 3. The API server will start on [http://localhost:8000](http://localhost:8000)
 
-4. To seed initial data, the `upload.py` script runs automatically after migrations (if set up), or run manually:
+4. To seed initial data run:
 
 ```bash
 docker exec -it <container_name> python manage.py shell < upload.py

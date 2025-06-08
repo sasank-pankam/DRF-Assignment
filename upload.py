@@ -1,5 +1,6 @@
 import csv
 from django.db.utils import IntegrityError
+from django.db import connection
 from rest_framework import serializers
 from loan.serializers import CustomerSerializer, LoanImportSerializer
 
@@ -63,5 +64,21 @@ def import_data(csv_path, headers, serializer):
                 pass
 
 
-import_data("./customer_data.csv", CUSTOMER_HEADERS, CustomerSerializer)
-import_data("./loan_data.csv", LOAN_HEADERS, LoanImportSerializer)
+def reset_sequence(table_name):
+    with connection.cursor() as cursor:
+        cursor.execute(f"""
+            SELECT setval(pg_get_serial_sequence('"{table_name}"', 'id'), 
+                          (SELECT MAX(id) FROM "{table_name}"));
+        """)
+
+
+def main():
+    reset_sequence("loan_loan")
+    reset_sequence("loan_customer")
+    import_data("./customer_data.csv", CUSTOMER_HEADERS, CustomerSerializer)
+    import_data("./loan_data.csv", LOAN_HEADERS, LoanImportSerializer)
+    reset_sequence("loan_loan")
+    reset_sequence("loan_customer")
+
+
+main()
