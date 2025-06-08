@@ -31,5 +31,8 @@ class CheckEligibilityView(APIView):
                 interest_rate=data["interest_rate"],
                 tenure=data["tenure"],
             )
-            return Response(EligibilityResultSerializer(result).data)
-        return Response(serializer.errors, status=400)
+            return Response(
+                EligibilityResultSerializer(result).data,
+                status=status.HTTP_202_ACCEPTED,
+            )
+        return Response(serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)

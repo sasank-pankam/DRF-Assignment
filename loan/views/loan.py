@@ -20,10 +20,12 @@ class CreateLoanView(APIView):
             try:
                 loan_request = serializer.save()  # may raise ValidationError
             except serializers.ValidationError as e:
+                print("*****1")
                 return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
             response_serializer = LoanSerializer(loan_request)
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        print("*****2")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
