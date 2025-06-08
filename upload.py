@@ -1,11 +1,12 @@
 import csv
 from django.db.utils import IntegrityError
 from rest_framework import serializers
+from loan.serializers import CustomerSerializer, LoanImportSerializer
 
 
 # 29 rows in the loan section is having duplciate loan id's so ignored them.
 CUSTOMER_HEADERS = [
-    ("id", str),
+    ("id", int),
     ("first_name", str),
     ("last_name", str),
     ("age", int),
@@ -56,3 +57,10 @@ def import_data(csv_path, headers, serializer):
             except IntegrityError as ve:
                 print(f"Id already exists for row {row}: {ve}")
                 failed += 1
+            except Exception as e:
+                print("Cannot upload user, for reason:", e)
+                print(data)
+
+
+import_data("./customer_data.csv", CUSTOMER_HEADERS, CustomerSerializer)
+import_data("./loan_data.csv", LOAN_HEADERS, LoanImportSerializer)

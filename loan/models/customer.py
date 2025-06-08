@@ -17,7 +17,7 @@ class Customer(models.Model):
     age = models.PositiveIntegerField(
         validators=[MinValueValidator(18), MaxValueValidator(100)]
     )
-    phone_number = models.PositiveIntegerField(
+    phone_number = models.PositiveBigIntegerField(
         validators=[
             MinValueValidator(1000000000),
             MaxValueValidator(9999999999),  # indian numbers

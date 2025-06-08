@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ale_loan
+      POSTGRES_USER: ale
+      POSTGRES_PASSWORD: ale
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    environment:
+      DB_NAME: ale_loan
+      DB_USER: ale
+      DB_PASSWORD: ale
+      DB_HOST: db
+      DB_PORT: 5432
+
+volumes:
+  postgres_data:
