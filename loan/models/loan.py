@@ -16,7 +16,7 @@ from .customer import Customer
 class Loan(models.Model):
     id = models.AutoField(primary_key=True)  # eventhough django creates
     customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL
+        Customer, on_delete=models.SET_NULL, null=True
     )  # the null is for a record. can handle with some func to add metadata about user instead of linking him.
     loan_amount = models.PositiveIntegerField()
     tenure = models.PositiveIntegerField(help_text="Tenure in months")

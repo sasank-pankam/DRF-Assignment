@@ -17,8 +17,14 @@ class Customer(models.Model):
     age = models.PositiveIntegerField(
         validators=[MinValueValidator(18), MaxValueValidator(100)]
     )
-    phone_number = models.CharField(length=15, unique=True)  # assuming indian numbers.
-    monthly_salary = models.PositiveIntegerField()
+    phone_number = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1000000000),
+            MaxValueValidator(9999999999),  # indian numbers
+        ],  # less than 10 digits
+        unique=True,
+    )
+    monthly_income = models.PositiveIntegerField()
     approved_limit = models.PositiveIntegerField()
 
     def __str__(self):
